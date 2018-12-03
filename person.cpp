@@ -1,11 +1,23 @@
 #include "person.h"
 
+#define BLOCK_SIZE sizeof(Person)
+#define SIZE_OF_POOL_MEMORY 100 * BLOCK_SIZE
+
 //init static members s_pool
 void *Person::init_s_pool()
 {
-    //malloc
+    void ** pool_ptr = (void **)malloc(SIZE_OF_POOL_MEMORY);
+
     //init internal ptrs
-    return NULL;
+    void* temp = pool_ptr;
+
+    for(unsigned  int i = 0; i < SIZE_OF_POOL_MEMORY; ++i)
+    {
+        pool_ptr[i] = (char*)temp + BLOCK_SIZE;
+        temp = (char*)temp + BLOCK_SIZE;
+    }
+
+    return *pool_ptr;
 }
 
 

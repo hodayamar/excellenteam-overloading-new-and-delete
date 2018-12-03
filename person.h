@@ -2,6 +2,8 @@
 #define EXCELLENTEAM_ELLA_CPP_OVERLOADING_NEW_AND_DELETE_HODAYAMAR_PERSON_H
 
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 class Person {
 
