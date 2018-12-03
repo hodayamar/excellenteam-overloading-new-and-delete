@@ -18,6 +18,8 @@ public:
 
     void operator delete(void *ptr);
 
+    static void* init_s_pool();
+
 private:
 
     char full_name[32];

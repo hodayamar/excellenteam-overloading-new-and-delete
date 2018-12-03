@@ -1,9 +1,14 @@
 #include "person.h"
 
 //init static members s_pool
-
+void *Person::init_s_pool()
+{
     //malloc
     //init internal ptrs
+    return NULL;
+}
+
+
 
 // init s_firstFree
 
