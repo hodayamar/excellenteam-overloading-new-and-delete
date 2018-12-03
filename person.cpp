@@ -29,7 +29,11 @@ void* Person::s_pool = Person::init_s_pool();
 void* Person::s_firstFree = s_pool;
 
 
-//new(size_t size):
+void* operator new[](size_t size)
+{
+    void* temp = *s_firstFree;
+    return  temp;
+}
 
     //temp = *s_firstFree
 
