@@ -37,18 +37,12 @@ void * operator new(size_t size)
 
     if(Person::s_firstFree)
     {
-        Person::s_firstFree = (Person*)*(Person*)Person::s_firstFree;
+        Person::s_firstFree = (Person*)*(size_t*)Person::s_firstFree;
     }
 
     return  temp;
 }
 
-    //temp = *s_firstFree
-
-    //check if *s_firstFree is null
-        //*s_firstFree = **s_firstFree
-
-    //return temp
 
 //delete(ptr):
 
