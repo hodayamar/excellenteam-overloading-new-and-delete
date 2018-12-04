@@ -1,6 +1,6 @@
 #include "person.h"
 #include <cstring>//strcpy
-#include <iostream>//cout
+#include <iostream>
 
 //#ifdef TESTING
 //#define TEST_PRINT(str, p) std::cout << str " " << getindex(p) << std::endl;
