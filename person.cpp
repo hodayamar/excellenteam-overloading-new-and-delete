@@ -1,55 +1,68 @@
 #include "person.h"
+#include <cstring>//strcpy
+#include <iostream>//cout
 
-#define BLOCK_SIZE sizeof(Person)
-#define SIZE_OF_POOL_MEMORY 100 * BLOCK_SIZE
+//#ifdef TESTING
+//#define TEST_PRINT(str, p) std::cout << str " " << getindex(p) << std::endl;
+//#else
+//#define TEST_PRINT(str, p)
+//#endif
 
 //init static members s_pool
 void *Person::init_s_pool()
 {
-    void ** pool_ptr = (void **)malloc(SIZE_OF_POOL_MEMORY);
 
-    //init internal ptrs
-    void* temp = pool_ptr;
+//    void *placeHolder = malloc(SIZE_OF_POOL_MEMORY);
+    s_pool = new char[SIZE_OF_POOL_MEMORY];
 
-    for(unsigned  int i = 0; i < SIZE_OF_POOL_MEMORY/BLOCK_SIZE; i += BLOCK_SIZE)
-    {
-        pool_ptr[i] = (char*)temp + BLOCK_SIZE;
-        temp = (char*)temp + BLOCK_SIZE;
+    Person *iterator = (Person*)s_pool;
+
+    for (unsigned int i = 0; i < SIZE_OF_POOL_MEMORY; ++i,++iterator) {
+
+        *((Person**)iterator) = (iterator + 1);
     }
 
-    return *pool_ptr;
+    *(void**)iterator = NULL;
+
+    return s_pool;
 }
 
 
+void * Person::s_pool;
 
-// init s_pool
-void* Person::s_pool = Person::init_s_pool();
+void * Person::s_firstFree = Person::s_pool;
 
-// init s_firstFree
-void* Person::s_firstFree = s_pool;
-
-
-void * operator new(size_t size)
+void * Person::operator new(size_t size)
 {
-    void * temp;
-
-    temp = Person::s_firstFree;
+    void * temp = Person::s_firstFree;
 
     if(Person::s_firstFree)
     {
-        Person::s_firstFree = (Person*)*(size_t*)Person::s_firstFree;
+        Person::s_firstFree = *((void**)Person::s_firstFree);
+        return  temp;
     }
+    else
+        throw  std::bad_alloc();
 
-    return  temp;
+
 }
 
 
-void operator delete(void * ptr)
+void Person::operator delete(void * ptr)
 {
-    void * temp = ptr;
-    ptr = Person::s_firstFree;
-    Person::s_firstFree = temp;
-
+//    TEST_PRINT("operator new", Person::s_firstFree);
+    *((void**)ptr) = Person::s_firstFree;
+    Person::s_firstFree = ptr;
 }
 
+
+Person::Person(unsigned int id, unsigned char age, const char * full_name): m_id(id), m_age(age)
+{
+    strcpy(Person::m_full_name,full_name);
+}
+
+//#ifdef  TESTING
+////TEESTING FUNC. need to add on header file.
+// -DTESTING
+//#else
 
