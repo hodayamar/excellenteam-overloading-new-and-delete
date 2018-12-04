@@ -44,8 +44,9 @@ void * operator new(size_t size)
 }
 
 
-//delete(ptr):
+void operator delete(void * ptr):
 
-    //set ptr to *s_firstFree
-    //set *s_firstFree to ptr
+    void * temp = ptr;
+    ptr = s_firstFree;
+    s_firstFree = temp;
 
