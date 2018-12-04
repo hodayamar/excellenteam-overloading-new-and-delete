@@ -44,9 +44,12 @@ void * operator new(size_t size)
 }
 
 
-void operator delete(void * ptr):
-
+void operator delete(void * ptr)
+{
     void * temp = ptr;
-    ptr = s_firstFree;
-    s_firstFree = temp;
+    ptr = Person::s_firstFree;
+    Person::s_firstFree = temp;
+
+}
+
 
