@@ -4,14 +4,14 @@
 #define SIZE_OF_POOL_MEMORY 100 * BLOCK_SIZE
 
 //init static members s_pool
-void *Person::i_pool()
+void *Person::init_s_pool()
 {
     void ** pool_ptr = (void **)malloc(SIZE_OF_POOL_MEMORY);
 
     //init internal ptrs
     void* temp = pool_ptr;
-    nit_s
-    for(unsigned  int i = 0; i < SIZE_OF_POOL_MEMORY; ++i)
+
+    for(unsigned  int i = 0; i < SIZE_OF_POOL_MEMORY/BLOCK_SIZE; i += BLOCK_SIZE)
     {
         pool_ptr[i] = (char*)temp + BLOCK_SIZE;
         temp = (char*)temp + BLOCK_SIZE;
@@ -29,9 +29,17 @@ void* Person::s_pool = Person::init_s_pool();
 void* Person::s_firstFree = s_pool;
 
 
-void* operator new[](size_t size)
+void * operator new(size_t size)
 {
-    void* temp = *s_firstFree;
+    void * temp;
+
+    temp = Person::s_firstFree;
+
+    if(Person::s_firstFree)
+    {
+        Person::s_firstFree = (Person*)*(Person*)Person::s_firstFree;
+    }
+
     return  temp;
 }
 
