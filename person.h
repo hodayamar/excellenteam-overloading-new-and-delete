@@ -11,7 +11,7 @@ class Person {
 
 public:
 
-    Person(unsigned int id, unsigned char age, const char * full_name);
+    Person();
 
     ~Person(){};
 

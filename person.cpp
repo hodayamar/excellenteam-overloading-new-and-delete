@@ -1,4 +1,5 @@
 #include "person.h"
+#include "template_alloc.h"
 #include <cstring>//strcpy
 #include <iostream>
 
@@ -56,9 +57,9 @@ void Person::operator delete(void * ptr)
 }
 
 
-Person::Person(unsigned int id, unsigned char age, const char * full_name): m_id(id), m_age(age)
+Person::Person()
 {
-    strcpy(Person::m_full_name,full_name);
+    std::cout << "im in ctor" << std::endl;
 }
 
 //#ifdef  TESTING

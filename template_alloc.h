@@ -22,6 +22,8 @@ private:
 
 };
 
+template<typename T, unsigned int size_of_pool>
+void* template_allocator<T, size_of_pool>::s_pool = NULL;
 
 template<typename T, unsigned int size_of_pool>
 void * template_allocator<T, size_of_pool>::init_memory_pool() {
